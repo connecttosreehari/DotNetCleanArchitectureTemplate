@@ -1,18 +1,17 @@
-﻿using Application.Common.Interfaces;
+﻿
+using Domain.Entities;
+using Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
+    public DbSet<Product> Products { get; set; }
+
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
 
-    }
-
-    public async Task<int> SaveChangesAsync(CancellationToken cancellationToken)
-    {
-        return await base.SaveChangesAsync(cancellationToken);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

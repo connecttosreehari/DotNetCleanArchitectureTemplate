@@ -1,4 +1,4 @@
-﻿using Application.UseCases.Users.Commands.CreateUserCommand;
+﻿using Application.UseCases.Products.Commands.CreateProduct;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -6,7 +6,7 @@ namespace WebApi.Controllers;
 public class HomeController : BaseController
 {
     [HttpPost]
-    public async Task<bool> Create(CreateUserCommand command)
+    public async Task<bool> Create(CreateProductCommand command)
     {
         return await Mediator.Send(command);
     }
