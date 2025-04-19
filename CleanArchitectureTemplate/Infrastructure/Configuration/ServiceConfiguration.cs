@@ -1,4 +1,6 @@
-﻿using Infrastructure.Common.Interfaces;
+﻿using Domain.Common.Interfaces;
+using Infrastructure.Common.Data;
+using Infrastructure.Common.Interfaces;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +16,7 @@ public static class ServiceConfiguration
             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")));
 
         services.AddScoped<IApplicationDbContext>(provider => provider.GetRequiredService<ApplicationDbContext>());
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
     }
 }
 

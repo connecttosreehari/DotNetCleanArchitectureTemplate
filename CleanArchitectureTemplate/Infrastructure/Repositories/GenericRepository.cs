@@ -5,15 +5,17 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : EntityBase
+public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposable where TEntity : EntityBase
 {
     private readonly ApplicationDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
+    private bool _isDisposed;
 
     public GenericRepository(ApplicationDbContext context)
     {
         _context = context;
         _dbSet = context.Set<TEntity>();
+        _isDisposed = false;
     }
 
     public async Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default)
@@ -38,7 +40,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
         await _dbSet.AddAsync(entity, cancellationToken);
     }
 
-    public async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public void Update(TEntity entity, CancellationToken cancellationToken = default)
     {
         _dbSet.Update(entity);
     }
@@ -46,5 +48,12 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
     public void Delete(TEntity entity)
     {
         _dbSet.Remove(entity);
+    }
+
+    public void Dispose()
+    {
+        if (_context != null)
+            _context.Dispose();
+        _isDisposed = true;
     }
 }

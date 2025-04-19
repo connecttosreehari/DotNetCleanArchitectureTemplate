@@ -2,7 +2,7 @@
 
 namespace Domain.Common.Interfaces;
 
-public interface IUnitOfWork : IDisposable
+public interface IUnitOfWork 
 {
     IGenericRepository<T> GetRepository<T>()
         where T : EntityBase;

@@ -8,6 +8,6 @@ public interface IGenericRepository<TEntity>
     Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default);
     Task<IEnumerable<TEntity>> GetAllAsync(bool tracked = true, CancellationToken cancellationToken = default);
     Task AddAsync(TEntity entity, CancellationToken cancellationToken = default);
-    Task UpdateAsync(TEntity entity, CancellationToken cancellationToken = default);
+    void Update(TEntity entity, CancellationToken cancellationToken = default);
     void Delete(TEntity entity);
 }

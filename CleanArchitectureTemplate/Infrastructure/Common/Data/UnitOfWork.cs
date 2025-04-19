@@ -3,16 +3,17 @@ using Domain.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Storage;
 using Infrastructure.Common.Interfaces;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infrastructure.Common.Data;
 
-public class UnitOfWork : IUnitOfWork
+public class UnitOfWork : IUnitOfWork, IDisposable
 {
-    private bool _disposed = false;
+    private bool _disposed;
     private readonly IServiceProvider _serviceProvider;
     private readonly IApplicationDbContext _context;
     private readonly Dictionary<Type, object> _repositories = new();
-    private IDbContextTransaction _transaction;
+    private IDbContextTransaction? _transaction;
 
     public UnitOfWork(IServiceProvider serviceProvider)
     {
@@ -46,7 +47,7 @@ public class UnitOfWork : IUnitOfWork
         try
         {
             await SaveChangesAsync(cancellationToken);
-            await _transaction.CommitAsync(cancellationToken);
+            await _transaction!.CommitAsync(cancellationToken);
         }
         catch
         {
@@ -57,7 +58,7 @@ public class UnitOfWork : IUnitOfWork
 
     public async Task RollbackAsync(CancellationToken cancellationToken = default)
     {
-        await _transaction.RollbackAsync(cancellationToken);
+        await _transaction!.RollbackAsync(cancellationToken);
     }
 
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
@@ -65,21 +66,17 @@ public class UnitOfWork : IUnitOfWork
         return _context.SaveChangesAsync(cancellationToken);
     }
 
-    protected virtual void Dispose(bool disposing)
-    {
-        if (!_disposed)
-        {
-            if (disposing)
-            {
-                _context.Dispose();
-            }
-            _disposed = true;
-        }
-    }
-
     public void Dispose()
     {
         Dispose(true);
         GC.SuppressFinalize(this);
+    }
+
+    protected virtual void Dispose(bool disposing)
+    {
+        if (!_disposed)
+            if (disposing)
+                _context.Dispose();
+        _disposed = true;
     }
 }
