@@ -1,6 +1,6 @@
-﻿using Domain.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Domain.Entities;
-using Infrastructure.Persistence;
+using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
@@ -17,7 +17,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposab
         _dbSet = context.Set<TEntity>();
         _isDisposed = false;
     }
-
+    
     public async Task<TEntity?> GetById(Guid id, CancellationToken cancellationToken = default)
     {
         return await _dbSet.FindAsync(id, cancellationToken);
@@ -35,9 +35,10 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposab
         return await query.ToListAsync(cancellationToken);
     }
 
-    public async Task AddAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task<TEntity> AddAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await _dbSet.AddAsync(entity, cancellationToken);
+        return entity;
     }
 
     public void Update(TEntity entity, CancellationToken cancellationToken = default)

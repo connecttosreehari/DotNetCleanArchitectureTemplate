@@ -1,10 +1,10 @@
 ﻿
 using Domain.Entities;
-using Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Application.Common.Interfaces;
 
-namespace Infrastructure.Persistence;
+namespace Infrastructure.Persistence.Data;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
@@ -31,14 +31,14 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     private bool disposed = false;
     protected virtual void Dispose(bool disposing)
     {
-        if (!this.disposed)
+        if (!disposed)
         {
             if (disposing)
             {
                 base.Dispose();
             }
         }
-        this.disposed = true;
+        disposed = true;
     }
 
     public void Dispose()

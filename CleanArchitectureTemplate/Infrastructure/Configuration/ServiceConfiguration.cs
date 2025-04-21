@@ -1,7 +1,6 @@
-﻿using Domain.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Infrastructure.Common.Data;
-using Infrastructure.Common.Interfaces;
-using Infrastructure.Persistence;
+using Infrastructure.Persistence.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

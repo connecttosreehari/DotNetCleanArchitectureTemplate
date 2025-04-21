@@ -1,4 +1,4 @@
-﻿using MediatR;
+﻿using Application.Common.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers;
@@ -7,7 +7,9 @@ namespace WebApi.Controllers;
 [Route("api/[controller]")]
 public class BaseController : ControllerBase
 {
-    private ISender? _mediator;
+    private IQueryDispatcher _queryDispatcher;
+    private ICommandDispatcher _commandDispatcher;
 
-    protected ISender Mediator => _mediator ??= HttpContext.RequestServices.GetRequiredService<ISender>();
+    protected IQueryDispatcher queryDispatcher => _queryDispatcher ??= HttpContext.RequestServices.GetRequiredService<IQueryDispatcher>();
+    protected ICommandDispatcher commandDispatcher => _commandDispatcher ??= HttpContext.RequestServices.GetRequiredService<ICommandDispatcher>();
 }

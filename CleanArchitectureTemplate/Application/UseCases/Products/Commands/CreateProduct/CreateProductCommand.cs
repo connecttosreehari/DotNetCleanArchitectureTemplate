@@ -1,8 +1,7 @@
-﻿using MediatR;
-
+﻿
 namespace Application.UseCases.Products.Commands.CreateProduct;
 
-public record CreateProductCommand : IRequest<bool>
+public record CreateProductCommand 
 {
     public string Name { get; set; } = default!;
     public string Description { get; set; } = default!;

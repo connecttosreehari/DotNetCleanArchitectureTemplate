@@ -1,11 +1,11 @@
-﻿using Domain.Entities;
+﻿using Application.Common.Interfaces;
 
-namespace Domain.Common.Interfaces;
+namespace Application.Common.Interfaces;
 
 public interface IUnitOfWork 
 {
     IGenericRepository<T> GetRepository<T>()
-        where T : EntityBase;
+        where T : class;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
     Task BeginTransactionAsync(CancellationToken cancellationToken = default);

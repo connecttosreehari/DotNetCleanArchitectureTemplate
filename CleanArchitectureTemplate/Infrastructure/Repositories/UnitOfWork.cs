@@ -1,8 +1,6 @@
-﻿using Domain.Entities;
-using Domain.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore.Storage;
-using Infrastructure.Common.Interfaces;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infrastructure.Common.Data;
@@ -22,7 +20,7 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     }
 
     public IGenericRepository<T> GetRepository<T>()
-        where T : EntityBase
+        where T : class
     {
         if (_repositories.ContainsKey(typeof(T)))
         {
