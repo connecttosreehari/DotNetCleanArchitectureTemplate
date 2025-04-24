@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace Infrastructure.Common.Data;
 
-public class UnitOfWork : IUnitOfWork, IDisposable
+public class CommandUnitOfWork : ICommandUnitOfWork, IDisposable
 {
     private bool _disposed;
     private readonly IServiceProvider _serviceProvider;
@@ -13,21 +13,21 @@ public class UnitOfWork : IUnitOfWork, IDisposable
     private readonly Dictionary<Type, object> _repositories = new();
     private IDbContextTransaction? _transaction;
 
-    public UnitOfWork(IServiceProvider serviceProvider)
+    public CommandUnitOfWork(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
         _context = _serviceProvider.GetService<IApplicationDbContext>()!;
     }
 
-    public IGenericRepository<T> GetRepository<T>()
+    public ICommandRepository<T> GetRepository<T>()
         where T : class
     {
         if (_repositories.ContainsKey(typeof(T)))
         {
-            return (IGenericRepository<T>)_repositories[typeof(T)];
+            return (ICommandRepository<T>)_repositories[typeof(T)];
         }
 
-        var repository = _serviceProvider.GetService<IGenericRepository<T>>()
+        var repository = _serviceProvider.GetService<ICommandRepository<T>>()
             ?? throw new InvalidOperationException("Repository is not registered in DI container");
 
         _repositories.Add(typeof(T), repository);

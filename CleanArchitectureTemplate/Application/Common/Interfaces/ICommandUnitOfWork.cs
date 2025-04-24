@@ -2,9 +2,9 @@
 
 namespace Application.Common.Interfaces;
 
-public interface IUnitOfWork 
+public interface ICommandUnitOfWork 
 {
-    IGenericRepository<T> GetRepository<T>()
+    ICommandRepository<T> GetRepository<T>()
         where T : class;
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

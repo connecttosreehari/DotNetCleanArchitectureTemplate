@@ -8,10 +8,10 @@ namespace Application.UseCases.Products.Commands.CreateProduct;
 
 public class CreateProductHandler : ICommandHandler<CreateProductCommand, CreateProductResponse>
 {
-    private IUnitOfWork _unitOfWork;
+    private ICommandUnitOfWork _unitOfWork;
     private IValidator<CreateProductCommand> _validator;
 
-    public CreateProductHandler(IUnitOfWork unitOfWork,IValidator<CreateProductCommand> validator)
+    public CreateProductHandler(ICommandUnitOfWork unitOfWork,IValidator<CreateProductCommand> validator)
     {
         _unitOfWork = unitOfWork;
         _validator = validator;

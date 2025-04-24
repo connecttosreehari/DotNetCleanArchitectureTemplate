@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Repositories;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity>, IDisposable where TEntity : EntityBase
+public class CommandRepository<TEntity> : ICommandRepository<TEntity>, IDisposable where TEntity : EntityBase
 {
     private readonly ApplicationDbContext _context;
     private readonly DbSet<TEntity> _dbSet;
     private bool _isDisposed;
 
-    public GenericRepository(ApplicationDbContext context)
+    public CommandRepository(ApplicationDbContext context)
     {
         _context = context;
         _dbSet = context.Set<TEntity>();
